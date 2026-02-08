@@ -5,29 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Svelte Studio - Premium Interior Design & Architecture</title>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Inter:wght@300;400;500;600&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome (For Estimator Icons) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-    <!-- PDF Generation Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Tailwind Configuration matching your design system -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#283345',      /* Navy */
-                        secondary: '#FFFDE7',    /* Cream */
-                        accent: '#FFBC00',       /* Amber/Gold */
+                        primary: '#283345',
+                        secondary: '#FFFDE7',
+                        accent: '#FFBC00',
                         background: '#FFFFFF',
                         surface: '#F5F7FA',
                         text: {
@@ -52,20 +47,18 @@
     </script>
 
     <style>
-        /* Custom Styles & Transitions */
-        body {
-            scroll-behavior: smooth;
-        }
+        body { scroll-behavior: smooth; }
         
-        /* Smooth Page Transitions */
+        /* Fixed visibility issue: Sections are hidden by default */
         .page-section {
-            opacity: 1;
-            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
-            display: none; /* Hidden by default, JS toggles this */
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
         }
         
         .page-section.active {
             display: block;
+            opacity: 1;
             animation: fadeIn 0.5s forwards;
         }
 
@@ -74,29 +67,10 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Hero Slider Transitions */
-        .hero-slide {
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            position: absolute;
-            inset: 0;
-        }
-        .hero-slide.active {
-            opacity: 1;
-        }
+        .hero-slide { opacity: 0; transition: opacity 1s ease-in-out; position: absolute; inset: 0; }
+        .hero-slide.active { opacity: 1; }
         
-        /* Glassmorphism Classes for Consultation Section */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-        }
-
-        /* Navigation Hover Effects */
-        .nav-link {
-            position: relative;
-        }
+        .nav-link { position: relative; }
         .nav-link::after {
             content: '';
             position: absolute;
@@ -107,54 +81,22 @@
             background-color: #FFBC00;
             transition: width 0.3s ease;
         }
-        .nav-link:hover::after {
-            width: 100%;
-        }
+        .nav-link:hover::after { width: 100%; }
 
-        /* Estimator Specific Styles */
+        /* Custom Checkbox for Estimator */
         .custom-checkbox input:checked + div {
             border-color: #283345;
             background-color: #F5F7FA;
         }
-        .custom-checkbox input:checked + div .check-icon {
-            opacity: 1;
-        }
-        input[type=range] {
-            -webkit-appearance: none; 
-            background: transparent; 
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: #FFBC00;
-            cursor: pointer;
-            margin-top: -8px; 
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%;
-            height: 4px;
-            cursor: pointer;
-            background: #e2e8f0;
-            border-radius: 2px;
-        }
-        
-        /* Gallery Modal Styles */
-        .gallery-overlay {
-            backdrop-filter: blur(8px);
-        }
+        .custom-checkbox input:checked + div .check-icon { opacity: 1; }
     </style>
 </head>
 <body class="font-sans text-text-primary bg-background antialiased flex flex-col min-h-screen">
 
-    <!-- NAVIGATION -->
     <header class="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-border shadow-sm">
         <nav class="max-w-7xl mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <!-- Logo -->
-                <a href="#" onclick="navigateTo('home')" class="flex items-center group">
+                <a href="#home" class="flex items-center group">
                     <svg class="w-8 h-8 text-primary mr-3 group-hover:text-accent transition-colors duration-300" viewBox="0 0 32 32" fill="currentColor">
                         <path d="M16 2L4 8v16l12 6 12-6V8L16 2zm0 4l8 4v12l-8 4-8-4V10l8-4z"/>
                         <path d="M12 12h8v2h-8zm0 4h8v2h-8zm0 4h6v2h-6z"/>
@@ -162,18 +104,15 @@
                     <span class="font-inter font-semibold text-xl text-primary">Svelte Studio</span>
                 </a>
                 
-                <!-- Desktop Links -->
                 <div class="hidden md:flex items-center space-x-6">
-                    <button onclick="navigateTo('home')" class="nav-link font-inter font-medium text-text-primary hover:text-accent transition-colors">Home</button>
-                    <button onclick="navigateTo('projects')" class="nav-link font-inter font-medium text-text-primary hover:text-accent transition-colors">Projects</button>
-                    <button onclick="navigateTo('process')" class="nav-link font-inter font-medium text-text-primary hover:text-accent transition-colors">Process</button>
-                    <button onclick="navigateTo('our-story')" class="nav-link font-inter font-medium text-text-primary hover:text-accent transition-colors">Our Story</button>
-                    <button onclick="navigateTo('contact')" class="nav-link font-inter font-medium text-text-primary hover:text-accent transition-colors">Contact</button>
-                    <!-- REMOVED: Schedule Consultation Button -->
-                    <button onclick="navigateTo('estimator')" class="border border-primary text-primary px-5 py-2.5 rounded font-inter font-medium hover:bg-primary hover:text-white transition-all hover:shadow-md">Get Free Estimate</button>
+                    <a href="#home" class="nav-link font-inter font-medium text-text-primary hover:text-accent transition-colors">Home</a>
+                    <a href="#projects" class="nav-link font-inter font-medium text-text-primary hover:text-accent transition-colors">Projects</a>
+                    <a href="#process" class="nav-link font-inter font-medium text-text-primary hover:text-accent transition-colors">Process</a>
+                    <a href="#our-story" class="nav-link font-inter font-medium text-text-primary hover:text-accent transition-colors">Our Story</a>
+                    <a href="#contact" class="nav-link font-inter font-medium text-text-primary hover:text-accent transition-colors">Contact</a>
+                    <a href="#estimator" class="border border-primary text-primary px-5 py-2.5 rounded font-inter font-medium hover:bg-primary hover:text-white transition-all hover:shadow-md">Get Free Estimate</a>
                 </div>
                 
-                <!-- Mobile Menu Button -->
                 <button class="md:hidden p-2 text-primary" id="mobile-menu-btn" onclick="toggleMobileMenu()">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -181,931 +120,91 @@
                 </button>
             </div>
             
-            <!-- Mobile Menu -->
             <div class="md:hidden hidden mt-4 pb-4 border-t border-gray-100 pt-4" id="mobile-menu">
                 <div class="flex flex-col space-y-4">
-                    <button onclick="navigateTo('home')" class="text-left font-inter font-medium text-text-primary hover:text-accent">Home</button>
-                    <button onclick="navigateTo('projects')" class="text-left font-inter font-medium text-text-primary hover:text-accent">Projects</button>
-                    <button onclick="navigateTo('process')" class="text-left font-inter font-medium text-text-primary hover:text-accent">Process</button>
-                    <button onclick="navigateTo('our-story')" class="text-left font-inter font-medium text-text-primary hover:text-accent">Our Story</button>
-                    <button onclick="navigateTo('contact')" class="text-left font-inter font-medium text-text-primary hover:text-accent">Contact</button>
-                    <!-- REMOVED: Schedule Consultation Mobile Link -->
-                    <button onclick="navigateTo('estimator')" class="text-center border border-primary text-primary py-3 rounded font-medium">Get Free Estimate</button>
+                    <a href="#home" onclick="toggleMobileMenu()" class="text-left font-inter font-medium text-text-primary hover:text-accent">Home</a>
+                    <a href="#projects" onclick="toggleMobileMenu()" class="text-left font-inter font-medium text-text-primary hover:text-accent">Projects</a>
+                    <a href="#process" onclick="toggleMobileMenu()" class="text-left font-inter font-medium text-text-primary hover:text-accent">Process</a>
+                    <a href="#our-story" onclick="toggleMobileMenu()" class="text-left font-inter font-medium text-text-primary hover:text-accent">Our Story</a>
+                    <a href="#contact" onclick="toggleMobileMenu()" class="text-left font-inter font-medium text-text-primary hover:text-accent">Contact</a>
+                    <a href="#estimator" onclick="toggleMobileMenu()" class="text-center border border-primary text-primary py-3 rounded font-medium">Get Free Estimate</a>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- MAIN CONTENT CONTAINER -->
-    <main class="flex-grow pt-[72px]"> <!-- pt-72px to offset fixed header -->
+    <main class="flex-grow pt-[72px]">
 
-        <!-- ==================== HOME SECTION ==================== -->
-        <div id="home" class="page-section active">
-            <!-- Hero with Slider -->
+        <div id="home" class="page-section">
             <section class="relative h-[90vh] min-h-[600px] overflow-hidden">
                 <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60 z-10 pointer-events-none"></div>
-                
                 <div class="relative h-full" id="hero-slider">
-                    <!-- Slide 1 -->
                     <div class="hero-slide active">
-                        <img src="home/banner1.jpeg" class="w-full h-full object-cover animate-kenburns" alt="Project 1" />
+                        <img src="home/banner1.jpeg" class="w-full h-full object-cover" alt="Slide 1" />
                         <div class="absolute bottom-24 left-6 md:left-20 z-20 text-white max-w-2xl">
-                            <span class="inline-block px-3 py-1 bg-accent/90 text-primary text-xs font-bold uppercase tracking-wider mb-4 rounded-sm">Featured Project</span>
-                            <h3 class="font-crimson font-semibold text-4xl md:text-6xl mb-2 leading-tight">Dubey's Residence</h3>
-                            <p class="text-lg opacity-90 font-light">A harmonious blend of raw elements and refined finishes.</p>
+                            <h3 class="font-crimson font-semibold text-4xl md:text-6xl mb-2">Dubey's Residence</h3>
                         </div>
                     </div>
-                    <!-- Slide 2 -->
-                    <div class="hero-slide">
-                        <img src="home/banner2.jpeg" class="w-full h-full object-cover animate-kenburns" alt="Project 2" />
-                        <div class="absolute bottom-24 left-6 md:left-20 z-20 text-white max-w-2xl">
-                            <span class="inline-block px-3 py-1 bg-accent/90 text-primary text-xs font-bold uppercase tracking-wider mb-4 rounded-sm">Featured Project</span>
-                            <h3 class="font-crimson font-semibold text-4xl md:text-6xl mb-2 leading-tight">Samantha's Abode</h3>
-                            <p class="text-lg opacity-90 font-light">Striking the balance between bold intentionality and effortless ease.</p>
-                        </div>
-                    </div>
-                    <!-- Slide 3 -->
-                    <div class="hero-slide">
-                        <img src="home/banner3.jpeg" class="w-full h-full object-cover animate-kenburns" alt="Project 3" />
-                        <div class="absolute bottom-24 left-6 md:left-20 z-20 text-white max-w-2xl">
-                            <span class="inline-block px-3 py-1 bg-accent/90 text-primary text-xs font-bold uppercase tracking-wider mb-4 rounded-sm">Featured Project</span>
-                            <h3 class="font-crimson font-semibold text-4xl md:text-6xl mb-2 leading-tight">Nikhil's Sanctuary</h3>
-                            <p class="text-lg opacity-90 font-light">Spaces designed not just to be looked at, but to be lived in.</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Hero Controls -->
-                <div class="absolute bottom-8 right-6 md:right-20 z-20 flex space-x-3">
-                    <button onclick="changeSlide(0)" class="w-3 h-3 rounded-full bg-white transition-all hover:scale-125 hero-dot active"></button>
-                    <button onclick="changeSlide(1)" class="w-3 h-3 rounded-full bg-white/50 transition-all hover:scale-125 hero-dot"></button>
-		    <button onclick="changeSlide(2)" class="w-3 h-3 rounded-full bg-white/50 transition-all hover:scale-125 hero-dot"></button>
                 </div>
             </section>
 
-            <!-- Philosophy -->
             <section class="py-24 px-6 bg-secondary">
                 <div class="max-w-4xl mx-auto text-center">
-                    <span class="text-accent font-inter font-bold tracking-widest text-sm uppercase mb-4 block">Our Philosophy</span>
-                    <h1 class="font-crimson font-semibold text-5xl md:text-6xl text-primary mb-8">Design Is in the Details</h1>
-                    <p class="text-xl text-text-secondary leading-relaxed max-w-3xl mx-auto font-light">
-                        At Svelte Studio, we believe spaces influence how we live, feel, and connect. Our philosophy blends intentional design with seamless execution, creating homes that are personal, functional, and timeless.
-                    </p>
-                    <div class="mt-12">
-                        <img src="home/img.jpeg" alt="Signature" class="h-120 mx-auto opacity-80" />
-                    </div>
+                    <h1 class="font-crimson font-semibold text-5xl text-primary">Design Is in the Details</h1>
+                    <p class="mt-8 text-xl text-text-secondary">We believe spaces influence how we live, feel, and connect.</p>
                 </div>
             </section>
+        </div>
 
-            <!-- Featured Projects Preview -->
-            <section class="py-20 px-6 bg-white">
-                <div class="max-w-7xl mx-auto">
-                    <div class="flex justify-between items-end mb-16">
-                        <div>
-                            <h2 class="font-inter font-semibold text-4xl text-primary mb-2">Featured Projects</h2>
-                            <p class="text-text-secondary">Discover our latest innovations</p>
-                        </div>
-                        <button onclick="navigateTo('projects')" class="hidden md:flex items-center text-primary font-medium hover:text-accent transition-colors group">
-                            View All Projects 
-                            <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                        </button>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <!-- Card 1 -->
-                        <div class="group cursor-pointer" onclick="navigateTo('projects')">
-                            <div class="relative overflow-hidden rounded-lg shadow-architectural h-80">
-                                <img src="home/featured1.jpeg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="EcoTech">
-                                <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                <div class="absolute bottom-6 left-6 text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-300 opacity-0 group-hover:opacity-100">
-                                    <p class="text-accent text-sm font-medium mb-1">Residential</p>
-                                    <h3 class="text-xl font-bold">Dubey's Residence</h3>
-                                </div>
-                            </div>
-                        </div>
-                         <!-- Card 2 -->
-                         <div class="group cursor-pointer" onclick="navigateTo('projects')">
-                            <div class="relative overflow-hidden rounded-lg shadow-architectural h-80">
-                                <img src="home/featured2.jpeg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Residence">
-                                <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                <div class="absolute bottom-6 left-6 text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-300 opacity-0 group-hover:opacity-100">
-                                    <p class="text-accent text-sm font-medium mb-1">Residential</p>
-                                    <h3 class="text-xl font-bold">Samantha's Abode</h3>
-                                </div>
-                            </div>
-                        </div>
-                         <!-- Card 3 -->
-                         <div class="group cursor-pointer" onclick="navigateTo('projects')">
-                            <div class="relative overflow-hidden rounded-lg shadow-architectural h-80">
-                                <img src="home/featured3.jpeg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Museum">
-                                <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                <div class="absolute bottom-6 left-6 text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-300 opacity-0 group-hover:opacity-100">
-                                    <p class="text-accent text-sm font-medium mb-1">Residential</p>
-                                    <h3 class="text-xl font-bold">Nikhil's Sanctuary</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-        <!-- ==================== PROJECTS SECTION ==================== -->
         <div id="projects" class="page-section">
-            <section class="bg-primary py-24 px-6 text-white">
-                <div class="max-w-7xl mx-auto text-center">
-                    <h1 class="font-crimson font-semibold text-5xl md:text-6xl mb-6">Our Portfolio</h1>
-                    <p class="text-xl text-white/80 max-w-3xl mx-auto">
-                        A collection of transformative spaces spanning residential and commercial sectors.
-                    </p>
-                </div>
+            <section class="bg-primary py-24 px-6 text-white text-center">
+                <h1 class="font-crimson font-semibold text-5xl">Our Portfolio</h1>
             </section>
-
-            <section class="py-16 px-6 bg-surface">
-                <div class="max-w-7xl mx-auto">
-                    <!-- Filter Tabs -->
-                    <div class="flex flex-wrap justify-center gap-4 mb-12">
-                        <button class="px-6 py-2 rounded-full bg-primary text-white shadow-md">All</button>
-                        <button class="px-6 py-2 rounded-full bg-white text-text-secondary hover:bg-gray-50 border border-gray-200">Residential</button>
-                        <button class="px-6 py-2 rounded-full bg-white text-text-secondary hover:bg-gray-50 border border-gray-200">Commercial</button>
-                    </div>
-
-                    <!-- Project Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <!-- Project 1 -->
-                        <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer" onclick="openGallery('anju')">
-                            <div class="h-64 overflow-hidden relative group">
-                                <img src="projects/anju/1.jpeg" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Project">
-                                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <span class="text-white bg-black/50 px-4 py-2 rounded-full text-sm backdrop-blur-sm">View Gallery</span>
-                                </div>
-                            </div>
-                            <div class="p-6">
-                                <div class="flex justify-between items-start mb-2">
-                                    <h3 class="text-xl font-bold text-primary">Singh's Apartment</h3>
-                                    <span class="text-xs bg-secondary text-primary px-2 py-1 rounded border border-gray-100">2021</span>
-                                </div>
-                                <p class="text-text-secondary text-sm mb-4">A sustainable modern home integrating passive heating and panoramic views.</p>
-                                <a href="javascript:void(0)" onclick="event.stopPropagation(); openGallery('anju')" class="text-accent text-sm font-semibold hover:underline">View Gallery &rarr;</a>
-                            </div>
-                        </div>
-
-                         <!-- Project 2 -->
-                         <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer" onclick="openGallery('pranab')">
-                            <div class="h-64 overflow-hidden relative group">
-                                <img src="projects/BETA 2 I PRANAB/1.jpeg" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Project">
-                                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <span class="text-white bg-black/50 px-4 py-2 rounded-full text-sm backdrop-blur-sm">View Gallery</span>
-                                </div>
-                            </div>
-                            <div class="p-6">
-                                <div class="flex justify-between items-start mb-2">
-                                    <h3 class="text-xl font-bold text-primary">Samantha's Abode</h3>
-                                    <span class="text-xs bg-secondary text-primary px-2 py-1 rounded border border-gray-100">2023</span>
-                                </div>
-                                <p class="text-text-secondary text-sm mb-4">Corporate headquarters designed for collaboration and employee wellness.</p>
-                                <a href="javascript:void(0)" onclick="event.stopPropagation(); openGallery('pranab')" class="text-accent text-sm font-semibold hover:underline">View Gallery &rarr;</a>
-                            </div>
-                        </div>
-
-                        <!-- Project 3 -->
-                        <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer" onclick="openGallery('nikhil')">
-                            <div class="h-64 overflow-hidden relative group">
-                                <img src="projects/NIKHIL/1.jpeg" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Project">
-                                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <span class="text-white bg-black/50 px-4 py-2 rounded-full text-sm backdrop-blur-sm">View Gallery</span>
-                                </div>
-                            </div>
-                            <div class="p-6">
-                                <div class="flex justify-between items-start mb-2">
-                                    <h3 class="text-xl font-bold text-primary">Nikhil's Sanctuary</h3>
-                                    <span class="text-xs bg-secondary text-primary px-2 py-1 rounded border border-gray-100">2023</span>
-                                </div>
-                                <p class="text-text-secondary text-sm mb-4">A community-focused cultural hub revitalizing the downtown district.</p>
-                                <a href="javascript:void(0)" onclick="event.stopPropagation(); openGallery('nikhil')" class="text-accent text-sm font-semibold hover:underline">View Gallery &rarr;</a>
-                            </div>
-                        </div>
-                        
-                         <!-- Project 4 -->
-                         <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer" onclick="openGallery('dubey')">
-                            <div class="h-64 overflow-hidden relative group">
-                                <img src="projects/RAJ KUMAR DUBEY I UNINAV BLISS/1.jpeg" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Project">
-                                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <span class="text-white bg-black/50 px-4 py-2 rounded-full text-sm backdrop-blur-sm">View Gallery</span>
-                                </div>
-                            </div>
-                            <div class="p-6">
-                                <div class="flex justify-between items-start mb-2">
-                                    <h3 class="text-xl font-bold text-primary">Dubey's Residence</h3>
-                                    <span class="text-xs bg-secondary text-primary px-2 py-1 rounded border border-gray-100">2022</span>
-                                </div>
-                                <p class="text-text-secondary text-sm mb-4">Luxury multi-family residential complex with rooftop gardens.</p>
-                                <a href="javascript:void(0)" onclick="event.stopPropagation(); openGallery('dubey')" class="text-accent text-sm font-semibold hover:underline">View Gallery &rarr;</a>
-                            </div>
-                        </div>
-                    </div>
+            <section class="py-16 px-6">
+                <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                     <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow cursor-pointer" onclick="openGallery('dubey')">
+                        <img src="projects/RAJ KUMAR DUBEY I UNINAV BLISS/1.jpeg" class="w-full h-64 object-cover" alt="Project">
+                        <div class="p-6"><h3 class="text-xl font-bold">Dubey's Residence</h3></div>
+                     </div>
                 </div>
             </section>
         </div>
 
-        <!-- ==================== PROCESS SECTION ==================== -->
         <div id="process" class="page-section">
-            <section class="py-24 px-6 bg-secondary">
-                <div class="max-w-6xl mx-auto text-center">
-                    <h1 class="font-crimson font-semibold text-5xl md:text-6xl text-primary mb-6">Our Methodology</h1>
-                    <p class="text-xl text-text-secondary leading-relaxed max-w-3xl mx-auto">
-                        A comprehensive six-phase approach that transforms abstract vision into concrete reality, ensuring every detail serves the human experience.
-                    </p>
-                </div>
-            </section>
-
-            <section class="py-20 px-6">
-                <div class="max-w-5xl mx-auto relative">
-                    <!-- Vertical Line -->
-                    <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-border -z-10"></div>
-
-                    <!-- Step 1: Discovery & Site Analysis -->
-                    <div class="flex flex-col md:flex-row items-center mb-16 relative">
-                        <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0 text-left md:text-right">
-                             <div class="bg-white p-8 rounded-lg shadow-architectural ml-12 md:ml-0 text-left">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 bg-accent rounded-full flex-shrink-0 flex items-center justify-center text-primary font-bold text-lg mr-4">1</div>
-                                    <h3 class="font-bold text-xl text-primary">Discovery & Site Analysis</h3>
-                                </div>
-                                <p class="text-text-secondary mb-4 pl-14">We begin by understanding your vision and analyzing the physical space to ensure a solid foundation.</p>
-                                <ul class="text-sm text-text-secondary space-y-2 list-none pl-14">
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Project brief discussion & detailed questionnaire</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Comprehensive site measurements & survey</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Sourcing requirements & feasibility check</li>
-                                </ul>
-                             </div>
-                        </div>
-                        <div class="w-6 h-6 bg-white border-4 border-accent rounded-full absolute left-4 md:left-1/2 transform -translate-x-1/2 shadow-sm z-10"></div>
-                        <!-- IMAGE 1 -->
-                        <div class="md:w-1/2 md:pl-12">
-                            <img src="process/1.webp" alt="Discovery Process" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-                        </div>
-                    </div>
-
-                    <!-- Step 2: Concept & Spatial Planning -->
-                    <div class="flex flex-col md:flex-row items-center mb-16 relative">
-                        <!-- IMAGE 2 -->
-                        <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
-                            <img src="process/2.png" alt="Concept Planning" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-                        </div>
-                        <div class="w-6 h-6 bg-white border-4 border-accent rounded-full absolute left-4 md:left-1/2 transform -translate-x-1/2 shadow-sm z-10"></div>
-                        <div class="md:w-1/2 md:pl-12 mb-6 md:mb-0 text-left">
-                            <div class="bg-white p-8 rounded-lg shadow-architectural ml-12 md:ml-0 text-left">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 bg-accent rounded-full flex-shrink-0 flex items-center justify-center text-primary font-bold text-lg mr-4">2</div>
-                                    <h3 class="font-bold text-xl text-primary">Concept & Spatial Planning</h3>
-                                </div>
-                                <p class="text-text-secondary mb-4 pl-14">We establish the functional layout and the aesthetic direction of the project through initial layouts and mood boards.</p>
-                                <ul class="text-sm text-text-secondary space-y-2 list-none pl-14">
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> AutoCAD furniture layouts & appliance planning</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Curated mood boards to define the design language</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Reference imagery for all zones</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Material charts to visualize the preliminary palette</li>
-                                </ul>
-                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 3: 3D Visualization -->
-                    <div class="flex flex-col md:flex-row items-center mb-16 relative">
-                         <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0 text-left md:text-right">
-                             <div class="bg-white p-8 rounded-lg shadow-architectural ml-12 md:ml-0 text-left">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 bg-accent rounded-full flex-shrink-0 flex items-center justify-center text-primary font-bold text-lg mr-4">3</div>
-                                    <h3 class="font-bold text-xl text-primary">3D Visualization</h3>
-                                </div>
-                                <p class="text-text-secondary mb-4 pl-14">We bring the concept to life with photorealistic visuals, allowing you to see the space before execution begins.</p>
-                                <ul class="text-sm text-text-secondary space-y-2 list-none pl-14">
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> First proposal 3D views for key areas</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Collaborative discussion & changes implementation</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Refinement of design elements</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Final 3D walkthroughs & rendered views</li>
-                                </ul>
-                             </div>
-                        </div>
-                        <div class="w-6 h-6 bg-white border-4 border-accent rounded-full absolute left-4 md:left-1/2 transform -translate-x-1/2 shadow-sm z-10"></div>
-                        <!-- IMAGE 3 -->
-                        <div class="md:w-1/2 md:pl-12">
-                            <img src="process/3.jpg" alt="3D Visualization" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-                        </div>
-                    </div>
-                    
-                    <!-- Step 4: Material & Fixtures Selection -->
-                    <div class="flex flex-col md:flex-row items-center mb-16 relative">
-                        <!-- IMAGE 4 -->
-                        <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
-                            <img src="process/4.jpg" alt="Material Selection" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-                        </div>
-                        <div class="w-6 h-6 bg-white border-4 border-accent rounded-full absolute left-4 md:left-1/2 transform -translate-x-1/2 shadow-sm z-10"></div>
-                        <div class="md:w-1/2 md:pl-12 mb-6 md:mb-0 text-left">
-                            <div class="bg-white p-8 rounded-lg shadow-architectural ml-12 md:ml-0 text-left">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 bg-accent rounded-full flex-shrink-0 flex items-center justify-center text-primary font-bold text-lg mr-4">4</div>
-                                    <h3 class="font-bold text-xl text-primary">Material & Fixtures Selection</h3>
-                                </div>
-                                <p class="text-text-secondary mb-4 pl-14">A comprehensive curation phase where we finalize every texture, fixture, and loose furniture piece.</p>
-                                <ul class="text-sm text-text-secondary space-y-2 list-none pl-14">
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Surface finishes: Woodwork, flooring, ceiling & stone</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Lighting & plumbing fixture specifications</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Appliance selection (Built-ins, HVAC, AV)</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Loose furniture & upholstery fabric curation</li>
-                                </ul>
-                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 5: Technical Documentation & Handover -->
-                    <div class="flex flex-col md:flex-row items-center mb-16 relative">
-                         <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0 text-left md:text-right">
-                             <div class="bg-white p-8 rounded-lg shadow-architectural ml-12 md:ml-0 text-left">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 bg-accent rounded-full flex-shrink-0 flex items-center justify-center text-primary font-bold text-lg mr-4">5</div>
-                                    <h3 class="font-bold text-xl text-primary">Technical Documentation & Handover</h3>
-                                </div>
-                                <p class="text-text-secondary mb-4 pl-14">We translate the design into executable blueprints and finalized costs, readying the project for construction.</p>
-                                <ul class="text-sm text-text-secondary space-y-2 list-none pl-14">
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Comprehensive technical drawings (Electrical, Plumbing, Joinery)</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Door, window, & wall elevation schedules</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Detailed BOQ with material sizes & quantities</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Contractor finalization & Design Handover</li>
-                                </ul>
-                             </div>
-                        </div>
-                        <div class="w-6 h-6 bg-white border-4 border-accent rounded-full absolute left-4 md:left-1/2 transform -translate-x-1/2 shadow-sm z-10"></div>
-                        <!-- IMAGE 5 -->
-                        <div class="md:w-1/2 md:pl-12">
-                            <img src="process/5.jpg" alt="Technical Documentation" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-                        </div>
-                    </div>
-
-                    <!-- Step 6: Construction & Execution -->
-                    <div class="flex flex-col md:flex-row items-center relative">
-                        <!-- IMAGE 6 -->
-                        <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
-                            <img src="process/6.jpg" alt="Construction Execution" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-                        </div>
-                        <div class="w-6 h-6 bg-white border-4 border-accent rounded-full absolute left-4 md:left-1/2 transform -translate-x-1/2 shadow-sm z-10"></div>
-                        <div class="md:w-1/2 md:pl-12 mb-6 md:mb-0 text-left">
-                            <div class="bg-white p-8 rounded-lg shadow-architectural ml-12 md:ml-0 text-left">
-                                <div class="flex items-center mb-4">
-                                    <div class="w-10 h-10 bg-accent rounded-full flex-shrink-0 flex items-center justify-center text-primary font-bold text-lg mr-4">6</div>
-                                    <h3 class="font-bold text-xl text-primary">Construction & Execution</h3>
-                                </div>
-                                <p class="text-text-secondary mb-4 pl-14">We oversee the physical transformation of the site, managing vendors and quality control to ensure the design intent is realized.</p>
-                                <ul class="text-sm text-text-secondary space-y-2 list-none pl-14">
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Site mobilization & project timeline management</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Procurement coordination & vendor supervision</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> On-site execution (Civil, MEP, Carpentry & Finishes)</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Furniture installation, art placement & styling</li>
-                                    <li class="flex items-start"><i class="fa-solid fa-check text-success mt-1 mr-2"></i> Final quality check (snag list) & site handover</li>
-                                </ul>
-                             </div>
-                        </div>
-                    </div>
-
-                </div>
+            <section class="py-24 px-6 bg-secondary text-center">
+                <h1 class="font-crimson font-semibold text-5xl">Our Methodology</h1>
             </section>
         </div>
 
-        <!-- ==================== OUR STORY SECTION (Renamed from Studio) ==================== -->
         <div id="our-story" class="page-section">
-            <!-- Hero Section -->
-            <section class="relative h-[60vh] min-h-[400px] overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-black/30 z-10 pointer-events-none"></div>
-                <img src="https://images.unsplash.com/photo-1600298881974-6be191ceeda1?q=80&w=2940&auto=format&fit=crop" alt="Architecture studio workspace" class="w-full h-full object-cover" />
-                <div class="absolute inset-0 z-20 flex items-center justify-center">
-                    <div class="text-center text-white max-w-4xl px-6">
-                        <h1 class="font-crimson font-semibold text-5xl md:text-6xl mb-6">The Minds Behind the Vision</h1>
-                        <p class="text-xl md:text-2xl leading-relaxed font-light">
-                            Crafting personalized interiors where aesthetics meet functionality, transforming houses into homes that truly reflect those who live within.
-                        </p>
-                    </div>
-                </div>
+            <section class="py-24 px-6 text-center">
+                <h1 class="font-crimson font-semibold text-5xl">The Minds Behind the Vision</h1>
             </section>
-
-            <!-- Studio Story -->
-            <section class="py-20 px-6">
-                <div class="max-w-6xl mx-auto">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                        <div>
-                            <h2 class="font-inter font-semibold text-4xl text-primary mb-6">Our Story</h2>
-                            <div class="space-y-6 text-lg text-text-secondary leading-relaxed">
-                                <p>
-                                    Svelte Studio was born from a belief that well-designed spaces have the power to quietly transform everyday life. Founded with a passion for thoughtful design and meticulous execution, the studio brings together creativity, functionality, and an unwavering attention to detail.
-                                </p>
-                                <p>
-                                    Founded by Preksha Jain, Svelte Studio reflects her deep appreciation for design that is both intuitive and intentional. With a background rooted in understanding space, structure, and human behavior, Preksha believes that great interiors go beyond trends—they respond to how people truly live. Her approach is hands-on and detail-driven, ensuring every project feels considered, personal, and enduring.
-                                </p>
-                                <p>
-                                    We approach every project as a collaboration—listening closely, understanding lifestyles, and translating individual stories into spaces that feel timeless yet lived-in. From concept to completion, our process is seamless and transparent, supported by trusted vendors and craftsmen.
-                                </p>
-                                <p>
-                                    At Svelte Studio, design is never just about aesthetics. It’s about creating homes that evolve with you, reflect who you are, and support the way you live—beautifully, effortlessly, and with intention.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="relative">
-                            <!-- Added onerror fallback to handle missing local image in preview -->
-                            <img src="story/picofme.jpg" alt="Preksha Jain, Founder of Svelte Studio" class="w-full h-full object-cover rounded-lg shadow-architectural" />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- REMOVED: Leadership Team Section -->
-
-            <!-- Studio Culture -->
-            <section class="py-20 px-6 bg-secondary">
-                <div class="max-w-7xl mx-auto">
-                    <div class="text-center mb-16">
-                        <h2 class="font-inter font-semibold text-4xl text-primary mb-4">Our Culture</h2>
-                        <p class="text-lg text-text-secondary">Values that guide our work and relationships</p>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <!-- Value 1: Innovation -->
-                        <div class="text-center p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                            <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4 text-accent">
-                                <i class="fa-solid fa-lightbulb text-3xl"></i>
-                            </div>
-                            <h3 class="font-inter font-semibold text-xl text-primary mb-3">Innovation</h3>
-                            <p class="text-text-secondary text-sm leading-relaxed">
-                                Pushing boundaries through thoughtful exploration, experimentation, and evolving design practices—while staying rooted in timeless aesthetics and proven craftsmanship.
-                            </p>
-                        </div>
-                        
-                        <!-- Value 2: Detail-Driven Thinking -->
-                        <div class="text-center p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                            <div class="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4 text-success">
-                                <i class="fa-solid fa-fingerprint text-3xl"></i>
-                            </div>
-                            <h3 class="font-inter font-semibold text-xl text-primary mb-3">Detail-Driven Thinking</h3>
-                            <p class="text-text-secondary text-sm leading-relaxed">
-                                We believe great design lives in the details. Every material, proportion, and finish is carefully considered to create spaces that feel cohesive, functional, and deeply personal.
-                            </p>
-                        </div>
-                        
-                        <!-- Value 3: Human-Centered Design -->
-                        <div class="text-center p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow">
-                            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-primary">
-                                <i class="fa-solid fa-user-group text-3xl"></i>
-                            </div>
-                            <h3 class="font-inter font-semibold text-xl text-primary mb-3">Human-Centered Design</h3>
-                            <p class="text-text-secondary text-sm leading-relaxed">
-                                Our work begins with understanding people—their lifestyles, routines, and aspirations—so every space we create enhances comfort, connection, and everyday living.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- REMOVED: Career Opportunities Section -->
         </div>
 
-        <!-- ==================== CONTACT SECTION ==================== -->
         <div id="contact" class="page-section">
-            <section class="py-24 px-6 bg-secondary">
-                <div class="max-w-4xl mx-auto text-center">
-                    <h1 class="font-crimson font-semibold text-5xl md:text-6xl text-primary mb-6">Start the Conversation</h1>
-                    <p class="text-xl text-text-secondary">
-                        Whether you have a clear vision or just the seed of an idea, we're ready to listen.
-                    </p>
-                </div>
-            </section>
-
-            <section class="py-20 px-6">
-                <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16">
-                    <!-- Contact Info -->
-                    <div>
-                        <h2 class="text-3xl font-bold text-primary mb-8">Get in Touch</h2>
-                        
-                        <div class="space-y-8">
-                            <div class="flex items-start">
-                                <div class="w-12 h-12 bg-surface rounded flex items-center justify-center flex-shrink-0 mr-4">
-                                    <!-- Call Icon -->
-                                    <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-lg text-primary">Contact</h3>
-                                    <p class="text-text-secondary">+91 9266461140</p>
-                                </div>
-                            </div>
-
-                            <div class="flex items-start">
-                                <div class="w-12 h-12 bg-surface rounded flex items-center justify-center flex-shrink-0 mr-4">
-                                    <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                                </div>
-                                <div>
-                                    <h3 class="font-bold text-lg text-primary">Email Us</h3>
-                                    <p class="text-text-secondary">sveltestudio.pj@gmail.com</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Contact Form -->
-                    <div class="bg-white p-8 rounded-lg shadow-architectural border-t-4 border-accent">
-                        <form id="contactForm" onsubmit="submitContactForm(event)" class="space-y-6">
-                            <div>
-                                <label class="block text-sm font-medium text-text-secondary mb-2">Name</label>
-                                <input type="text" id="contact_name" class="w-full px-4 py-2 border border-border rounded focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" placeholder="Your Name" required>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-text-secondary mb-2">Email</label>
-                                <input type="email" id="contact_email" class="w-full px-4 py-2 border border-border rounded focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" placeholder="jane@example.com" required>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-text-secondary mb-2">Mobile</label>
-                                <input type="tel" id="contact_mobile" class="w-full px-4 py-2 border border-border rounded focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" placeholder="+91 98765 43210" required>
-                            </div>
-
-                            <button type="submit" id="contactSubmitBtn" class="w-full bg-primary text-white py-3 rounded font-medium hover:bg-opacity-90 transition-opacity">Send Inquiry</button>
-                        </form>
-                    </div>
-                </div>
+            <section class="py-24 px-6 bg-secondary text-center">
+                <h1 class="font-crimson font-semibold text-5xl">Start the Conversation</h1>
             </section>
         </div>
 
-        <!-- ==================== ESTIMATOR SECTION ==================== -->
         <div id="estimator" class="page-section">
-            <section class="py-24 px-6 bg-surface">
-                <div class="max-w-7xl mx-auto">
-                    <div class="text-center mb-12">
-                        <h1 class="font-crimson font-semibold text-5xl md:text-6xl text-primary mb-4">Interior Estimator</h1>
-                        <p class="text-xl text-text-secondary">Get a ballpark cost estimate for your dream project.</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                        
-                        <!-- LEFT COLUMN: Inputs -->
-                        <div class="lg:col-span-7 space-y-6 no-print">
-                            
-                            <!-- NEW Section: Contact Details -->
-                            <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                                <h2 class="text-xl font-semibold mb-4 flex items-center gap-2 text-primary">
-                                    <i class="fa-solid fa-user text-accent"></i> Your Details
-                                </h2>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div class="md:col-span-2">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Full Name <span class="text-red-500">*</span></label>
-                                        <input type="text" id="est_name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none transition" placeholder="John Doe">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Email <span class="text-red-500">*</span></label>
-                                        <input type="email" id="est_email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none transition" placeholder="john@example.com">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Mobile <span class="text-red-500">*</span></label>
-                                        <input type="tel" id="est_mobile" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none transition" placeholder="+91 98765 43210">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Section 2: Site Details -->
-                            <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                                <h2 class="text-xl font-semibold mb-4 flex items-center gap-2 text-primary">
-                                    <i class="fa-solid fa-ruler-combined text-accent"></i> Site Details
-                                </h2>
-                                
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <!-- Room Type -->
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Requirement Type</label>
-                                        <select id="roomType" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none transition bg-white" onchange="calculateTotal()">
-                                            <option value="full_home_2bhk">Full Home (2 BHK)</option>
-                                            <option value="full_home_3bhk" selected>Full Home (3 BHK)</option>
-                                            <option value="full_home_4bhk">Full Home (4 BHK+)</option>
-                                            <option value="living">Living Room Only</option>
-                                            <option value="bedroom">Master Bedroom</option>
-                                            <option value="kitchen">Modular Kitchen</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Area Input -->
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Carpet Area (Sq. Ft.)</label>
-                                        <div class="flex items-center gap-4">
-                                            <input type="number" id="areaInput" value="1200" min="50" max="10000" class="w-24 p-3 border border-gray-300 rounded-lg text-center font-bold text-primary focus:ring-2 focus:ring-primary outline-none" oninput="syncSlider(this.value); calculateTotal()">
-                                            <input type="range" id="areaSlider" min="50" max="5000" value="1200" step="50" class="flex-grow" oninput="syncInput(this.value); calculateTotal()">
-                                        </div>
-                                        <p class="text-xs text-gray-400 mt-1">Total carpet area of scope</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Section 3: Quality/Finish Level -->
-                            <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                                <h2 class="text-xl font-semibold mb-4 flex items-center gap-2 text-primary">
-                                    <i class="fa-solid fa-gem text-accent"></i> Finish Selection
-                                </h2>
-                                
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <!-- Essential -->
-                                    <label class="cursor-pointer custom-checkbox group relative">
-                                        <input type="radio" name="finishLevel" value="essential" class="hidden" onchange="calculateTotal()">
-                                        <div class="border-2 border-gray-200 rounded-lg p-4 h-full hover:border-gray-300 transition duration-200">
-                                            <div class="flex justify-between items-start mb-2">
-                                                <span class="font-bold text-primary">Essential</span>
-                                                <i class="fa-solid fa-circle-check check-icon text-primary opacity-0 transition-opacity"></i>
-                                            </div>
-                                            <p class="text-xs text-gray-500 mb-2">Budget-friendly. Matte laminates, edge banding, standard hardware, tractor emulsion.</p>
-                                            <span class="text-xs font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded">Rental / Basic</span>
-                                        </div>
-                                    </label>
-
-                                    <!-- Premium -->
-                                    <label class="cursor-pointer custom-checkbox group relative">
-                                        <input type="radio" name="finishLevel" value="premium" class="hidden" checked onchange="calculateTotal()">
-                                        <div class="border-2 border-gray-200 rounded-lg p-4 h-full hover:border-gray-300 transition duration-200">
-                                            <div class="flex justify-between items-start mb-2">
-                                                <span class="font-bold text-primary">Premium</span>
-                                                <i class="fa-solid fa-circle-check check-icon text-primary opacity-0 transition-opacity"></i>
-                                            </div>
-                                            <p class="text-xs text-gray-500 mb-2">High gloss/Acrylic laminates, soft-close channels, Royal paint, false ceiling with cove.</p>
-                                            <span class="text-xs font-bold text-accent bg-secondary px-2 py-1 rounded border border-accent/20">Best Seller</span>
-                                        </div>
-                                    </label>
-
-                                    <!-- Luxury -->
-                                    <label class="cursor-pointer custom-checkbox group relative">
-                                        <input type="radio" name="finishLevel" value="luxury" class="hidden" onchange="calculateTotal()">
-                                        <div class="border-2 border-gray-200 rounded-lg p-4 h-full hover:border-gray-300 transition duration-200">
-                                            <div class="flex justify-between items-start mb-2">
-                                                <span class="font-bold text-primary">Luxury</span>
-                                                <i class="fa-solid fa-circle-check check-icon text-primary opacity-0 transition-opacity"></i>
-                                            </div>
-                                            <p class="text-xs text-gray-500 mb-2">Veneer/PU Polish, Italian Marble, Hettich/Blum fittings, Automation, heavy decor.</p>
-                                            <span class="text-xs font-bold text-purple-700 bg-purple-100 px-2 py-1 rounded">High End</span>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <!-- Section 4: Scope of Work -->
-                            <div class="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                                <h2 class="text-xl font-semibold mb-4 flex items-center gap-2 text-primary">
-                                    <i class="fa-solid fa-hammer text-accent"></i> Scope of Work
-                                </h2>
-                                <p class="text-sm text-gray-500 mb-4">Select components required (Rates estimated for NCR region).</p>
-
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                    <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition">
-                                        <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary border-gray-300" id="check_false_ceiling" onchange="calculateTotal()" checked>
-                                        <div class="flex-1">
-                                            <span class="block text-sm font-medium text-gray-900">False Ceiling (POP)</span>
-                                            <span class="block text-xs text-gray-500">Gypsum Channel + Wiring</span>
-                                        </div>
-                                    </label>
-
-                                    <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition">
-                                        <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary border-gray-300" id="check_painting" onchange="calculateTotal()" checked>
-                                        <div class="flex-1">
-                                            <span class="block text-sm font-medium text-gray-900">Painting & Finishing</span>
-                                            <span class="block text-xs text-gray-500">Wall Putty + Primer + Paint</span>
-                                        </div>
-                                    </label>
-
-                                    <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition">
-                                        <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary border-gray-300" id="check_woodwork" onchange="calculateTotal()" checked>
-                                        <div class="flex-1">
-                                            <span class="block text-sm font-medium text-gray-900">Modular Woodwork</span>
-                                            <span class="block text-xs text-gray-500">Kitchen, Wardrobes, TV Units</span>
-                                        </div>
-                                    </label>
-
-                                    <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition">
-                                        <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary border-gray-300" id="check_electrical" onchange="calculateTotal()" checked>
-                                        <div class="flex-1">
-                                            <span class="block text-sm font-medium text-gray-900">Electrical Work</span>
-                                            <span class="block text-xs text-gray-500">New Points, Lights & Fans</span>
-                                        </div>
-                                    </label>
-
-                                     <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition">
-                                        <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary border-gray-300" id="check_flooring" onchange="calculateTotal()">
-                                        <div class="flex-1">
-                                            <span class="block text-sm font-medium text-gray-900">Civil & Flooring</span>
-                                            <span class="block text-xs text-gray-500">Tiling/Demolition/Plaster</span>
-                                        </div>
-                                    </label>
-
-                                    <label class="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer transition">
-                                        <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary border-gray-300" id="check_decor" onchange="calculateTotal()">
-                                        <div class="flex-1">
-                                            <span class="block text-sm font-medium text-gray-900">Decor & Furniture</span>
-                                            <span class="block text-xs text-gray-500">Sofas, Beds, Curtains</span>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-
-                             <!-- Button to Calculate -->
-                             <div class="pt-4">
-                                <button id="submitEstimateBtn" onclick="submitEstimateRequest()" class="w-full bg-primary text-white text-lg font-semibold py-4 rounded-xl shadow-lg hover:bg-opacity-90 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3">
-                                    <i class="fa-solid fa-calculator"></i> Calculate Estimate
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- RIGHT COLUMN: Quote Summary (Sticky) -->
-                        <div class="lg:col-span-5">
-                            <div class="sticky top-24">
-                                <div id="quote-card" class="bg-white rounded-xl shadow-xl border-t-8 border-primary overflow-hidden">
-                                    <!-- Quote Header -->
-                                    <div class="p-6 bg-surface border-b border-gray-100">
-                                        <div class="flex justify-between items-center mb-2">
-                                            <h3 class="text-2xl font-bold font-crimson text-primary">Project Estimate</h3>
-                                            <span id="currentDate" class="text-xs text-gray-500 font-mono"></span>
-                                        </div>
-                                        <p class="text-sm text-gray-600">Svelte Studio | Noida/Delhi NCR</p>
-                                    </div>
-
-                                    <!-- LOCKED STATE -->
-                                    <div id="estimate-locked" class="p-10 text-center space-y-4">
-                                        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                            <i class="fa-solid fa-lock text-3xl text-gray-400"></i>
-                                        </div>
-                                        <h3 class="text-xl font-bold text-primary">Estimate Locked</h3>
-                                        <p class="text-text-secondary">Please fill in your details and project requirements, then click "Calculate Estimate" to view the detailed cost breakdown.</p>
-                                    </div>
-
-                                    <!-- UNLOCKED STATE (Hidden by default) -->
-                                    <div id="estimate-result" class="hidden">
-                                        <div class="p-6 space-y-4">
-                                            <!-- Summary Grid -->
-                                            <div class="grid grid-cols-2 gap-4 text-sm mb-4">
-                                                <div>
-                                                    <span class="block text-gray-400 text-xs uppercase tracking-wider">Scope</span>
-                                                    <span id="summary_room" class="font-bold text-primary">3 BHK</span>
-                                                </div>
-                                                <div>
-                                                    <span class="block text-gray-400 text-xs uppercase tracking-wider">Carpet Area</span>
-                                                    <span id="summary_area" class="font-bold text-primary">1200 sq. ft.</span>
-                                                </div>
-                                                <div>
-                                                    <span class="block text-gray-400 text-xs uppercase tracking-wider">Finish</span>
-                                                    <span id="summary_finish" class="font-bold text-primary capitalize">Premium</span>
-                                                </div>
-                                            </div>
-
-                                            <hr class="border-dashed border-gray-200">
-
-                                            <!-- Cost Breakdown -->
-                                            <div id="cost_breakdown" class="space-y-2 text-sm">
-                                                <!-- Dynamic Items will be inserted here -->
-                                            </div>
-
-                                            <hr class="border-gray-200">
-
-                                            <!-- Totals -->
-                                            <div class="pt-2">
-                                                <div class="flex justify-between items-center mb-1 text-gray-600">
-                                                    <span>Subtotal</span>
-                                                    <span id="subtotal_val">₹0</span>
-                                                </div>
-                                                <div class="flex justify-between items-center mb-4 text-gray-500 text-xs">
-                                                    <span>Design & Management Fee (10%)</span>
-                                                    <span id="design_fee_val">₹0</span>
-                                                </div>
-                                                <div class="flex justify-between items-center bg-primary text-white p-4 rounded-lg shadow-md">
-                                                    <span class="font-medium">Total Estimate</span>
-                                                    <span id="total_val" class="text-xl font-bold font-serif">₹0</span>
-                                                </div>
-                                                <p class="text-[10px] text-gray-400 text-right mt-1">* GST (18%) applicable extra on final invoice.</p>
-                                            </div>
-                                        </div>
-
-                                        <!-- Quote Footer / Actions -->
-                                        <div class="p-4 bg-gray-50 flex gap-3 no-print">
-                                            <button onclick="window.print()" class="flex-1 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-100 transition flex justify-center items-center gap-2">
-                                                <i class="fa-solid fa-print"></i> Print
-                                            </button>
-                                            <button onclick="downloadPDF()" class="flex-1 py-3 bg-primary text-white rounded-lg font-medium hover:bg-opacity-90 transition shadow-lg flex justify-center items-center gap-2">
-                                                <i class="fa-solid fa-download"></i> Download PDF
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                                
-                                <!-- Disclaimer -->
-                                <div class="mt-4 p-4 bg-yellow-50 rounded-lg border border-yellow-100 text-xs text-yellow-800 no-print">
-                                    <i class="fa-solid fa-circle-info mr-1"></i> 
-                                    <strong>Note:</strong> This is a ballpark estimation for Delhi NCR region. Final quote depends on site measurement, material selection, and civil changes.
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+            <section class="py-24 px-6 text-center">
+                <h1 class="font-crimson font-semibold text-5xl">Interior Estimator</h1>
+                <p class="mt-4 text-text-secondary">Fill in your details to get a ballpark quote.</p>
             </section>
         </div>
-
-        <!-- REMOVED: CONSULTATION SECTION (Glassmorphism) -->
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-primary text-white py-16 px-6 border-t border-white/10 mt-auto">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-                <div class="md:col-span-2">
-                    <div class="flex items-center mb-6">
-                        <span class="font-inter font-semibold text-2xl">Svelte Studio</span>
-                    </div>
-                    <p class="text-white/70 max-w-sm mb-6">
-                        Thoughtfully designed spaces that reflect how you live, feel, and connect.
-                    </p>
-                    <div class="flex space-x-4">
-                        <!-- Social Placeholders -->
-                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
-                            <span class="sr-only">LinkedIn</span>
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                        </a>
-                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">
-                            <span class="sr-only">Instagram</span>
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                        </a>
-                    </div>
-                </div>
-                
-                <div>
-                    <h3 class="font-inter font-semibold text-lg mb-4 text-accent">Quick Links</h3>
-                    <ul class="space-y-2 text-white/70">
-                        <li><button onclick="navigateTo('projects')" class="hover:text-white transition-colors">Projects</button></li>
-                        <li><button onclick="navigateTo('process')" class="hover:text-white transition-colors">Process</button></li>
-                        <!-- Updated Studio Link -->
-                        <li><button onclick="navigateTo('our-story')" class="hover:text-white transition-colors">Our Story</button></li>
-                        <li><button onclick="navigateTo('contact')" class="hover:text-white transition-colors">Contact</button></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="font-inter font-semibold text-lg mb-4 text-accent">Contact</h3>
-                    <div class="space-y-2 text-white/70">
-                        <div class="flex items-center space-x-2">
-                            <i class="fa-solid fa-phone text-accent text-sm"></i>
-                            <p>+91 9266461140</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <i class="fa-solid fa-envelope text-accent text-sm"></i>
-                            <p>sveltestudio.pj@gmail.com</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Removed the bottom copyright and certification bar -->
+    <footer class="bg-primary text-white py-12 px-6 mt-auto">
+        <div class="max-w-7xl mx-auto text-center">
+            <p>&copy; 2026 Svelte Studio. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- Full Screen Image Gallery Modal -->
-    <div id="galleryModal" class="fixed inset-0 z-[100] bg-black/95 gallery-overlay hidden flex flex-col justify-center items-center opacity-0 transition-opacity duration-300">
-        
-        <!-- Close Button -->
-        <button onclick="closeGallery()" class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors z-50 p-2">
-            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-
-        <!-- Main Image Container -->
-        <div class="relative w-full h-full flex items-center justify-center p-4 md:p-12">
-            
-            <!-- Prev Button -->
-            <button onclick="navigateGallery(-1)" class="absolute left-4 md:left-8 text-white/50 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full z-50">
-                <svg class="w-10 h-10 md:w-16 md:h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"></path></svg>
-            </button>
-
-            <!-- Image -->
-            <img id="galleryImage" src="" alt="Gallery Image" class="max-h-full max-w-full object-contain shadow-2xl rounded-sm transition-transform duration-300" onclick="event.stopPropagation()" />
-
-            <!-- Next Button -->
-            <button onclick="navigateGallery(1)" class="absolute right-4 md:right-8 text-white/50 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full z-50">
-                <svg class="w-10 h-10 md:w-16 md:h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5l7 7-7 7"></path></svg>
-            </button>
-        </div>
-
-        <!-- Caption / Counter -->
-        <div class="absolute bottom-6 left-0 right-0 text-center text-white pb-4 pointer-events-none">
-            <h3 id="galleryTitle" class="text-xl font-crimson font-semibold tracking-wide mb-1">Project Name</h3>
-            <p id="galleryCounter" class="text-white/60 text-sm font-inter">1 / 5</p>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // *** CONFIGURATION: PASTE YOUR GOOGLE SCRIPT URL HERE ***
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzzyK4wcBthxGUQ01KqaPnccm1j1mu1BwwYj1UfAmdCv9d46LUIm7c-SCsMAS-yzccF/exec"; 
-
-        // --- Navigation Logic ---
+        // --- 1. Navigation Logic ---
         function navigateTo(pageId) {
             // Hide all sections
             document.querySelectorAll('.page-section').forEach(section => {
@@ -1116,551 +215,32 @@
             const target = document.getElementById(pageId);
             if (target) {
                 target.classList.add('active');
-                
-                // Update URL hash without scrolling (optional, keeps browser history)
-                history.pushState(null, null, `#${pageId}`);
-                
-                // Scroll to top
                 window.scrollTo(0, 0);
+            } else {
+                // Fallback to home if ID not found
+                document.getElementById('home').classList.add('active');
             }
-
-            // Close mobile menu if open
-            document.getElementById('mobile-menu').classList.add('hidden');
         }
 
-        // --- Mobile Menu Toggle ---
+        // --- 2. Event Listeners ---
+        
+        // Listen for browser URL changes (e.g. clicking a link or back button)
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1);
+            navigateTo(hash || 'home');
+        });
+
+        // Initial Load
+        window.addEventListener('load', () => {
+            const hash = window.location.hash.substring(1);
+            navigateTo(hash || 'home');
+        });
+
+        // Mobile Menu Toggle
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         }
-
-        // --- Hero Slider Logic ---
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.hero-slide');
-        const dots = document.querySelectorAll('.hero-dot');
-        
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
-            });
-            dots.forEach((dot, i) => {
-                if (i === index) {
-                    dot.classList.add('active', 'bg-white', 'scale-125');
-                    dot.classList.remove('bg-white/50');
-                } else {
-                    dot.classList.remove('active', 'bg-white', 'scale-125');
-                    dot.classList.add('bg-white/50');
-                }
-            });
-        }
-        
-        function changeSlide(index) {
-            currentSlide = index;
-            showSlide(currentSlide);
-        }
-        
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
-        }
-        
-        // Auto-advance slides every 5 seconds
-        setInterval(nextSlide, 5000);
-
-        // --- Testimonial Slider Logic ---
-        let currentTestimonial = 0;
-        const testimonialSlides = document.querySelectorAll('.testimonial-slide');
-        const testimonialDots = document.querySelectorAll('.testimonial-dot');
-        
-        function showTestimonial(index) {
-            testimonialSlides.forEach((slide, i) => {
-                if (i === index) {
-                    slide.classList.remove('opacity-0', 'z-10');
-                    slide.classList.add('opacity-100', 'z-20');
-                } else {
-                    slide.classList.remove('opacity-100', 'z-20');
-                    slide.classList.add('opacity-0', 'z-10');
-                }
-            });
-            
-            testimonialDots.forEach((dot, i) => {
-                if (i === index) {
-                    dot.classList.add('bg-primary', 'scale-125');
-                    dot.classList.remove('bg-primary/20');
-                } else {
-                    dot.classList.remove('bg-primary', 'scale-125');
-                    dot.classList.add('bg-primary/20');
-                }
-            });
-        }
-        
-        function changeTestimonial(index) {
-            currentTestimonial = index;
-            showTestimonial(currentTestimonial);
-        }
-        
-        function nextTestimonial() {
-            currentTestimonial = (currentTestimonial + 1) % testimonialSlides.length;
-            showTestimonial(currentTestimonial);
-        }
-        
-        // Auto-advance testimonials every 6 seconds
-        setInterval(nextTestimonial, 6000);
-
-        // --- GALLERY LOGIC ---
-        const projectData = {
-            'anju': {
-                title: "Singh's Apartment",
-                images: [
-                    'projects/anju/1.jpeg',
-                    'projects/anju/2.jpeg',
-                    'projects/anju/3.jpeg',
-		    'projects/anju/4.jpeg',
-		    'projects/anju/5.jpeg',
-		    'projects/anju/6.jpeg',
-		    'projects/anju/7.jpeg',
-		    'projects/anju/8.jpeg'				
-                ]
-            },
-            'pranab': {
-                title: "Samantha's Abode",
-                images: [
-                    'projects/BETA 2 I PRANAB/1.jpeg',
-                    'projects/BETA 2 I PRANAB/2.jpeg',
-                    'projects/BETA 2 I PRANAB/3.jpeg',
-		    'projects/BETA 2 I PRANAB/4.jpeg',
-		    'projects/BETA 2 I PRANAB/5.jpeg',
-		    'projects/BETA 2 I PRANAB/6.jpeg'
-                ]
-            },
-            'nikhil': {
-                title: "Nikhil's Sanctuary",
-                images: [
-                    'projects/NIKHIL/1.jpeg',
-                    'projects/NIKHIL/2.jpeg',
-                    'projects/NIKHIL/3.jpeg',
-		    'projects/NIKHIL/4.jpeg',
-		    'projects/NIKHIL/5.jpeg',
-		    'projects/NIKHIL/6.jpeg',
-		    'projects/NIKHIL/7.jpeg',
-		    'projects/NIKHIL/8.jpeg',
-		    'projects/NIKHIL/9.jpeg'
-                ]
-            },
-            'dubey': {
-                title: "Dubey's Residence",
-                images: [
-                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/1.jpeg',
-                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/2.jpeg',
-                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/3.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/4.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/5.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/6.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/7.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/8.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/9.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/10.jpeg',
-                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/11.jpeg',
-                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/12.jpeg',
-                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/13.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/14.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/15.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/16.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/17.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/18.jpeg',
-                ]
-            }
-        };
-
-        let currentGalleryId = null;
-        let currentImageIndex = 0;
-
-        function openGallery(id) {
-            if(!projectData[id]) return;
-            
-            currentGalleryId = id;
-            currentImageIndex = 0;
-            
-            updateGalleryContent();
-            
-            const modal = document.getElementById('galleryModal');
-            modal.classList.remove('hidden');
-            // Small timeout to allow display:block to apply before opacity transition
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-            }, 10);
-            
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
-        }
-
-        function closeGallery() {
-            const modal = document.getElementById('galleryModal');
-            modal.classList.add('opacity-0');
-            
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.body.style.overflow = '';
-            }, 300);
-        }
-
-        function navigateGallery(direction) {
-            if(!currentGalleryId) return;
-            
-            const totalImages = projectData[currentGalleryId].images.length;
-            currentImageIndex = (currentImageIndex + direction + totalImages) % totalImages;
-            
-            updateGalleryContent();
-        }
-
-        function updateGalleryContent() {
-            const data = projectData[currentGalleryId];
-            document.getElementById('galleryImage').src = data.images[currentImageIndex];
-            document.getElementById('galleryTitle').innerText = data.title;
-            document.getElementById('galleryCounter').innerText = `${currentImageIndex + 1} / ${data.images.length}`;
-        }
-
-        // Keyboard navigation for gallery
-        document.addEventListener('keydown', function(e) {
-            if (document.getElementById('galleryModal').classList.contains('hidden')) return;
-            
-            if (e.key === 'Escape') closeGallery();
-            if (e.key === 'ArrowLeft') navigateGallery(-1);
-            if (e.key === 'ArrowRight') navigateGallery(1);
-        });
-
-        // --- ESTIMATOR LOGIC ---
-        // 1. Configuration: Base Rates (INR per Sq Ft of Floor Area equivalent)
-        const finishMultipliers = {
-            'essential': 1.0, 
-            'premium': 1.45,  
-            'luxury': 2.3     
-        };
-
-        const roomComplexity = {
-            'full_home_2bhk': 1.0, 
-            'full_home_3bhk': 1.0,
-            'full_home_4bhk': 0.95, 
-            'living': 0.8,          
-            'bedroom': 1.1,         
-            'kitchen': 2.8          
-        };
-
-        const componentRates = {
-            'woodwork': 950,      
-            'false_ceiling': 140, 
-            'painting': 130,      
-            'flooring': 220,      
-            'electrical': 100,    
-            'decor': 450          
-        };
-
-        // 2. Helper Functions
-        function formatCurrency(num) {
-            return '₹' + Math.round(num).toLocaleString('en-IN');
-        }
-
-        function syncSlider(val) {
-            document.getElementById('areaSlider').value = val;
-        }
-
-        function syncInput(val) {
-            document.getElementById('areaInput').value = val;
-        }
-
-        function setDate() {
-            const now = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            const dateElem = document.getElementById('currentDate');
-            if(dateElem) dateElem.innerText = now.toLocaleDateString('en-IN', options);
-        }
-
-        // NEW: Submit and Reveal Estimate
-        function submitEstimateRequest() {
-            const name = document.getElementById('est_name').value.trim();
-            const email = document.getElementById('est_email').value.trim();
-            const mobile = document.getElementById('est_mobile').value.trim();
-            const btn = document.getElementById('submitEstimateBtn');
-
-            if (!name || !email || !mobile) {
-                alert("Please fill in your Name, Email, and Mobile number to view the estimate.");
-                if(!name) document.getElementById('est_name').classList.add('border-red-500');
-                if(!email) document.getElementById('est_email').classList.add('border-red-500');
-                if(!mobile) document.getElementById('est_mobile').classList.add('border-red-500');
-                return;
-            }
-
-            // Remove error highlights
-            document.getElementById('est_name').classList.remove('border-red-500');
-            document.getElementById('est_email').classList.remove('border-red-500');
-            document.getElementById('est_mobile').classList.remove('border-red-500');
-
-            // --- Capture Additional Project Details ---
-            const roomType = document.getElementById('roomType').value;
-            const area = document.getElementById('areaInput').value;
-            const finish = document.querySelector('input[name="finishLevel"]:checked').value;
-            
-            // Collect Checkboxes
-            const scope = [];
-            if(document.getElementById('check_false_ceiling').checked) scope.push("False Ceiling");
-            if(document.getElementById('check_painting').checked) scope.push("Painting");
-            if(document.getElementById('check_woodwork').checked) scope.push("Woodwork");
-            if(document.getElementById('check_electrical').checked) scope.push("Electrical");
-            if(document.getElementById('check_flooring').checked) scope.push("Flooring");
-            if(document.getElementById('check_decor').checked) scope.push("Decor");
-
-            // --- Show Loading State ---
-            const originalBtnText = btn.innerHTML;
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Calculating...';
-
-            // --- Construct Payload (Using URLSearchParams for Reliability) ---
-            const payload = new URLSearchParams();
-            payload.append('name', name);
-            payload.append('email', email);
-            payload.append('mobile', mobile);
-            payload.append('roomType', roomType);
-            payload.append('area', area);
-            payload.append('finish', finish);
-            payload.append('scope', scope.join(", "));
-
-            // --- Send to Google Sheet (Fire & Forget Logic) ---
-            if (GOOGLE_SCRIPT_URL) {
-                fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    body: payload, // Sending as x-www-form-urlencoded
-                    mode: 'no-cors' 
-                }).then(() => {
-                    console.log("Data successfully sent to Google Sheet");
-                }).catch(err => {
-                    console.error("Error sending data", err);
-                });
-            } else {
-                console.log("Google Script URL not set. Skipping data save.");
-            }
-
-            // --- Simulate short processing delay then reveal ---
-            setTimeout(() => {
-                // Reveal logic
-                document.getElementById('estimate-locked').classList.add('hidden');
-                document.getElementById('estimate-result').classList.remove('hidden');
-                
-                // Calculate
-                calculateTotal();
-
-                // Reset button
-                btn.disabled = false;
-                btn.innerHTML = originalBtnText;
-
-                // Scroll to result on mobile
-                if (window.innerWidth < 1024) {
-                    document.getElementById('quote-card').scrollIntoView({ behavior: 'smooth' });
-                }
-            }, 1500);
-        }
-
-        // 3. Main Calculation Logic
-        function calculateTotal() {
-            // Get Inputs
-            const roomTypeElem = document.getElementById('roomType');
-            const areaInputElem = document.getElementById('areaInput');
-            const finishLevelElem = document.querySelector('input[name="finishLevel"]:checked');
-            
-            // Safety check in case elements aren't loaded yet
-            if(!roomTypeElem || !areaInputElem || !finishLevelElem) return;
-
-            const roomType = roomTypeElem.value;
-            const area = parseFloat(areaInputElem.value) || 0;
-            const finishLevel = finishLevelElem.value;
-            
-            // Multipliers
-            const f_mult = finishMultipliers[finishLevel]; 
-            const r_mult = roomComplexity[roomType];       
-
-            // Initialize Calculation Variables
-            let breakdownHtml = '';
-            let subTotal = 0;
-
-            // --- Component Logic ---
-            
-            // 1. Woodwork 
-            if (document.getElementById('check_woodwork').checked) {
-                let baseWoodRate = componentRates['woodwork'];
-                if (roomType === 'kitchen') baseWoodRate = 2200; 
-                if (roomType === 'living') baseWoodRate = 400;   
-                
-                const woodCost = area * baseWoodRate * r_mult * f_mult;
-                subTotal += woodCost;
-                breakdownHtml += createLineItem('Modular Woodwork (Kitchen/Wardrobes)', woodCost);
-            }
-
-            // 2. False Ceiling
-            if (document.getElementById('check_false_ceiling').checked) {
-                let ceilingRate = componentRates['false_ceiling'];
-                if(finishLevel === 'essential') ceilingRate = 110; 
-                if(finishLevel === 'luxury') ceilingRate = 180;    
-                
-                const ceilingCost = area * ceilingRate; 
-                subTotal += ceilingCost;
-                breakdownHtml += createLineItem('False Ceiling (POP/Gypsum)', ceilingCost);
-            }
-
-            // 3. Painting
-            if (document.getElementById('check_painting').checked) {
-                let paintRate = componentRates['painting'];
-                if (finishLevel === 'luxury') paintRate *= 1.8; 
-                
-                const paintCost = area * paintRate; 
-                subTotal += paintCost;
-                breakdownHtml += createLineItem('Painting & Wall Treatment', paintCost);
-            }
-
-            // 4. Civil/Flooring
-            if (document.getElementById('check_flooring').checked) {
-                let floorRate = componentRates['flooring'];
-                if (finishLevel === 'luxury') floorRate = 450; 
-                
-                const flooringCost = area * floorRate;
-                subTotal += flooringCost;
-                breakdownHtml += createLineItem('Civil Work & Flooring', flooringCost);
-            }
-
-            // 5. Electrical
-            if (document.getElementById('check_electrical').checked) {
-                let elecRate = componentRates['electrical'];
-                if (finishLevel === 'luxury') elecRate = 250; 
-
-                const elecCost = area * elecRate;
-                subTotal += elecCost;
-                breakdownHtml += createLineItem('Electrical & Lighting', elecCost);
-            }
-
-            // 6. Decor / Furniture
-            if (document.getElementById('check_decor').checked) {
-                let decorRate = componentRates['decor'];
-                if (finishLevel === 'luxury') decorRate = 1200; 
-                
-                const decorCost = area * decorRate;
-                subTotal += decorCost;
-                breakdownHtml += createLineItem('Loose Furniture & Decor', decorCost);
-            }
-
-            // --- Final Totals ---
-            const designFee = subTotal * 0.10; 
-            const total = subTotal + designFee;
-
-            // --- Update UI ---
-            document.getElementById('cost_breakdown').innerHTML = breakdownHtml || '<div class="text-gray-400 italic text-center py-2">Select items to calculate estimate</div>';
-            document.getElementById('subtotal_val').innerText = formatCurrency(subTotal);
-            document.getElementById('design_fee_val').innerText = formatCurrency(designFee);
-            document.getElementById('total_val').innerText = formatCurrency(total);
-
-            // Update Text Summaries
-            document.getElementById('summary_room').innerText = roomTypeElem.options[roomTypeElem.selectedIndex].text;
-            document.getElementById('summary_area').innerText = area + ' sq. ft.';
-            document.getElementById('summary_finish').innerText = finishLevel;
-        }
-
-        function createLineItem(title, cost) {
-            return `
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-600">${title}</span>
-                    <span class="font-medium text-primary">${formatCurrency(cost)}</span>
-                </div>
-            `;
-        }
-        
-        // PDF Generation
-        function downloadPDF() {
-            const element = document.getElementById('quote-card');
-            const opt = {
-                margin:       [10, 10, 10, 10], 
-                filename:     'SvelteStudio_Estimate_NCR.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            
-            // Clean up for PDF
-            const originalClasses = element.className;
-            element.className = "bg-white rounded-xl border-t-8 border-primary p-4";
-            
-            html2pdf().set(opt).from(element).save().then(() => {
-                element.className = originalClasses;
-            });
-        }
-
-        // NEW: Submit Contact Form
-        function submitContactForm(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('contact_name').value.trim();
-            const email = document.getElementById('contact_email').value.trim();
-            const mobile = document.getElementById('contact_mobile').value.trim();
-            const btn = document.getElementById('contactSubmitBtn');
-
-            if (!name || !email || !mobile) {
-                alert("Please fill in all fields.");
-                return;
-            }
-
-            // UI Feedback
-            const originalBtnText = btn.innerText;
-            btn.disabled = true;
-            btn.innerText = "Sending...";
-
-            // Construct Payload (Using URLSearchParams)
-            const payload = new URLSearchParams();
-            payload.append('name', name);
-            payload.append('email', email);
-            payload.append('mobile', mobile);
-            // Add static values for columns used by Estimator to keep Sheet clean
-            payload.append('roomType', 'General Inquiry'); 
-            payload.append('area', '-');
-            payload.append('finish', '-');
-            payload.append('scope', 'Contact Form Submission');
-
-            // Send to Google Sheet
-            if (GOOGLE_SCRIPT_URL) {
-                fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    body: payload,
-                    mode: 'no-cors'
-                }).then(() => {
-                    alert("Thank you! We have received your inquiry and will be in touch shortly.");
-                    document.getElementById('contactForm').reset();
-                }).catch(err => {
-                    console.error("Error sending data", err);
-                    alert("Something went wrong. Please try again or call us directly.");
-                }).finally(() => {
-                    btn.disabled = false;
-                    btn.innerText = originalBtnText;
-                });
-            } else {
-                // Fallback for when URL isn't set yet (Preview Mode)
-                setTimeout(() => {
-                    alert("Thank you! We have received your inquiry and will be in touch shortly.");
-                    document.getElementById('contactForm').reset();
-                    btn.disabled = false;
-                    btn.innerText = originalBtnText;
-                }, 1000);
-            }
-        }
-
-        // --- Init ---
-        window.addEventListener('load', () => {
-            // Handle hash navigation
-            const hash = window.location.hash.substring(1);
-            if (hash && document.getElementById(hash)) {
-                navigateTo(hash);
-            } else {
-                navigateTo('home');
-            }
-
-            // Initialize Estimator
-            setDate();
-            // Short delay to ensure DOM is ready for calc
-            setTimeout(calculateTotal, 100);
-        });
     </script>
 </body>
 </html>
