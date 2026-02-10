@@ -157,12 +157,10 @@
             <div class="flex items-center justify-between">
                 <!-- Logo -->
                 <a href="#" onclick="navigateTo('home')" class="flex items-center group">
-    			<!-- Replace 'logo.png' with your actual file path -->
-    			<img src="home/logo.png" alt="Svelte Studio Logo" class="h-10 w-auto mr-3">
-
-    			<!-- You can keep or remove this text span depending on if your logo includes text -->
-   				 <span class="font-inter font-semibold text-xl text-primary">Svelte Studio</span>
-				</a>
+                <!-- Replace 'logo.png' with your actual file path -->
+                <img src="home/logo.png" alt="Svelte Studio Logo" class="h-10 w-auto mr-3" onerror="this.style.display='none'">
+                 <span class="font-inter font-semibold text-xl text-primary">Svelte Studio</span>
+                </a>
                 
                 <!-- Desktop Links -->
                 <div class="hidden md:flex items-center space-x-6">
@@ -208,7 +206,7 @@
                 <div class="relative h-full" id="hero-slider">
                     <!-- Slide 1 -->
                     <div class="hero-slide active">
-                        <img src="home/banner1.jpeg" class="w-full h-full object-cover animate-kenburns" alt="Project 1" />
+                        <img src="home/banner1.jpeg" class="w-full h-full object-cover animate-kenburns" alt="Project 1" onerror="this.src='https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1920&q=80'" />
                         <div class="absolute bottom-24 left-6 md:left-20 z-20 text-white max-w-2xl">
                             <span class="inline-block px-3 py-1 bg-accent/90 text-primary text-xs font-bold uppercase tracking-wider mb-4 rounded-sm">Featured Project</span>
                             <h3 class="font-crimson font-semibold text-4xl md:text-6xl mb-2 leading-tight">Dubey's Residence</h3>
@@ -217,7 +215,7 @@
                     </div>
                     <!-- Slide 2 -->
                     <div class="hero-slide">
-                        <img src="home/banner2.jpeg" class="w-full h-full object-cover animate-kenburns" alt="Project 2" />
+                        <img src="home/banner2.jpeg" class="w-full h-full object-cover animate-kenburns" alt="Project 2" onerror="this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1920&q=80'" />
                         <div class="absolute bottom-24 left-6 md:left-20 z-20 text-white max-w-2xl">
                             <span class="inline-block px-3 py-1 bg-accent/90 text-primary text-xs font-bold uppercase tracking-wider mb-4 rounded-sm">Featured Project</span>
                             <h3 class="font-crimson font-semibold text-4xl md:text-6xl mb-2 leading-tight">Samantha's Abode</h3>
@@ -226,7 +224,7 @@
                     </div>
                     <!-- Slide 3 -->
                     <div class="hero-slide">
-                        <img src="home/banner3.jpeg" class="w-full h-full object-cover animate-kenburns" alt="Project 3" />
+                        <img src="home/banner3.jpeg" class="w-full h-full object-cover animate-kenburns" alt="Project 3" onerror="this.src='https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1920&q=80'" />
                         <div class="absolute bottom-24 left-6 md:left-20 z-20 text-white max-w-2xl">
                             <span class="inline-block px-3 py-1 bg-accent/90 text-primary text-xs font-bold uppercase tracking-wider mb-4 rounded-sm">Featured Project</span>
                             <h3 class="font-crimson font-semibold text-4xl md:text-6xl mb-2 leading-tight">Nikhil's Sanctuary</h3>
@@ -239,7 +237,7 @@
                 <div class="absolute bottom-8 right-6 md:right-20 z-20 flex space-x-3">
                     <button onclick="changeSlide(0)" class="w-3 h-3 rounded-full bg-white transition-all hover:scale-125 hero-dot active"></button>
                     <button onclick="changeSlide(1)" class="w-3 h-3 rounded-full bg-white/50 transition-all hover:scale-125 hero-dot"></button>
-		    <button onclick="changeSlide(2)" class="w-3 h-3 rounded-full bg-white/50 transition-all hover:scale-125 hero-dot"></button>
+                    <button onclick="changeSlide(2)" class="w-3 h-3 rounded-full bg-white/50 transition-all hover:scale-125 hero-dot"></button>
                 </div>
             </section>
 
@@ -252,7 +250,7 @@
                         At Svelte Studio, we believe spaces influence how we live, feel, and connect. Our philosophy blends intentional design with seamless execution, creating homes that are personal, functional, and timeless.
                     </p>
                     <div class="mt-12">
-                        <img src="home/img.jpeg" alt="Signature" class="h-120 mx-auto opacity-80" />
+                        <img src="home/img.jpeg" alt="Signature" class="h-120 mx-auto opacity-80" onerror="this.style.display='none'" />
                     </div>
                 </div>
             </section>
@@ -275,7 +273,7 @@
                         <!-- Card 1 -->
                         <div class="group cursor-pointer" onclick="navigateTo('projects')">
                             <div class="relative overflow-hidden rounded-lg shadow-architectural h-80">
-                                <img src="home/featured1.jpeg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="EcoTech">
+                                <img src="home/featured1.jpeg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="EcoTech" onerror="this.src='https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80'">
                                 <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 <div class="absolute bottom-6 left-6 text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-300 opacity-0 group-hover:opacity-100">
                                     <p class="text-accent text-sm font-medium mb-1">Residential</p>
@@ -286,7 +284,7 @@
                          <!-- Card 2 -->
                          <div class="group cursor-pointer" onclick="navigateTo('projects')">
                             <div class="relative overflow-hidden rounded-lg shadow-architectural h-80">
-                                <img src="home/featured2.jpeg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Residence">
+                                <img src="home/featured2.jpeg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Residence" onerror="this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80'">
                                 <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 <div class="absolute bottom-6 left-6 text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-300 opacity-0 group-hover:opacity-100">
                                     <p class="text-accent text-sm font-medium mb-1">Residential</p>
@@ -297,7 +295,7 @@
                          <!-- Card 3 -->
                          <div class="group cursor-pointer" onclick="navigateTo('projects')">
                             <div class="relative overflow-hidden rounded-lg shadow-architectural h-80">
-                                <img src="home/featured3.jpeg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Museum">
+                                <img src="home/featured3.jpeg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Museum" onerror="this.src='https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=800&q=80'">
                                 <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 <div class="absolute bottom-6 left-6 text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-300 opacity-0 group-hover:opacity-100">
                                     <p class="text-accent text-sm font-medium mb-1">Residential</p>
@@ -336,7 +334,7 @@
                         <!-- Project 1 -->
                         <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer" onclick="openGallery('anju')">
                             <div class="h-64 overflow-hidden relative group">
-                                <img src="projects/ANJU/1.jpeg" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Project">
+                                <img src="projects/ANJU/1.jpeg" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Project" onerror="this.src='https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80'">
                                 <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                     <span class="text-white bg-black/50 px-4 py-2 rounded-full text-sm backdrop-blur-sm">View Gallery</span>
                                 </div>
@@ -354,7 +352,7 @@
                          <!-- Project 2 -->
                          <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer" onclick="openGallery('pranab')">
                             <div class="h-64 overflow-hidden relative group">
-                                <img src="projects/BETA 2 I PRANAB/1.jpeg" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Project">
+                                <img src="projects/BETA 2 I PRANAB/1.jpeg" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Project" onerror="this.src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80'">
                                 <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                     <span class="text-white bg-black/50 px-4 py-2 rounded-full text-sm backdrop-blur-sm">View Gallery</span>
                                 </div>
@@ -372,7 +370,7 @@
                         <!-- Project 3 -->
                         <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer" onclick="openGallery('nikhil')">
                             <div class="h-64 overflow-hidden relative group">
-                                <img src="projects/NIKHIL/1.jpeg" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Project">
+                                <img src="projects/NIKHIL/1.jpeg" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Project" onerror="this.src='https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=800&q=80'">
                                 <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                     <span class="text-white bg-black/50 px-4 py-2 rounded-full text-sm backdrop-blur-sm">View Gallery</span>
                                 </div>
@@ -390,7 +388,7 @@
                          <!-- Project 4 -->
                          <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 cursor-pointer" onclick="openGallery('dubey')">
                             <div class="h-64 overflow-hidden relative group">
-                                <img src="projects/RAJ KUMAR DUBEY I UNINAV BLISS/1.jpeg" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Project">
+                                <img src="projects/RAJ KUMAR DUBEY I UNINAV BLISS/1.jpeg" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Project" onerror="this.src='https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'">
                                 <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                     <span class="text-white bg-black/50 px-4 py-2 rounded-full text-sm backdrop-blur-sm">View Gallery</span>
                                 </div>
@@ -444,7 +442,7 @@
                         <div class="w-6 h-6 bg-white border-4 border-accent rounded-full absolute left-4 md:left-1/2 transform -translate-x-1/2 shadow-sm z-10"></div>
                         <!-- IMAGE 1 -->
                         <div class="md:w-1/2 md:pl-12">
-                            <img src="process/1.webp" alt="Discovery Process" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+                            <img src="process/1.webp" alt="Discovery Process" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80'">
                         </div>
                     </div>
 
@@ -452,7 +450,7 @@
                     <div class="flex flex-col md:flex-row items-center mb-16 relative">
                         <!-- IMAGE 2 -->
                         <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
-                            <img src="process/2.png" alt="Concept Planning" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+                            <img src="process/2.png" alt="Concept Planning" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.unsplash.com/photo-1534349762913-92499696c8a5?auto=format&fit=crop&w=800&q=80'">
                         </div>
                         <div class="w-6 h-6 bg-white border-4 border-accent rounded-full absolute left-4 md:left-1/2 transform -translate-x-1/2 shadow-sm z-10"></div>
                         <div class="md:w-1/2 md:pl-12 mb-6 md:mb-0 text-left">
@@ -492,7 +490,7 @@
                         <div class="w-6 h-6 bg-white border-4 border-accent rounded-full absolute left-4 md:left-1/2 transform -translate-x-1/2 shadow-sm z-10"></div>
                         <!-- IMAGE 3 -->
                         <div class="md:w-1/2 md:pl-12">
-                            <img src="process/3.jpg" alt="3D Visualization" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+                            <img src="process/3.jpg" alt="3D Visualization" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.unsplash.com/photo-1628744876497-eb30460be9f6?auto=format&fit=crop&w=800&q=80'">
                         </div>
                     </div>
                     
@@ -500,7 +498,7 @@
                     <div class="flex flex-col md:flex-row items-center mb-16 relative">
                         <!-- IMAGE 4 -->
                         <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
-                            <img src="process/4.jpg" alt="Material Selection" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+                            <img src="process/4.jpg" alt="Material Selection" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80'">
                         </div>
                         <div class="w-6 h-6 bg-white border-4 border-accent rounded-full absolute left-4 md:left-1/2 transform -translate-x-1/2 shadow-sm z-10"></div>
                         <div class="md:w-1/2 md:pl-12 mb-6 md:mb-0 text-left">
@@ -540,7 +538,7 @@
                         <div class="w-6 h-6 bg-white border-4 border-accent rounded-full absolute left-4 md:left-1/2 transform -translate-x-1/2 shadow-sm z-10"></div>
                         <!-- IMAGE 5 -->
                         <div class="md:w-1/2 md:pl-12">
-                            <img src="process/5.jpg" alt="Technical Documentation" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+                            <img src="process/5.jpg" alt="Technical Documentation" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.unsplash.com/photo-1599696847846-9e6c2433e95e?auto=format&fit=crop&w=800&q=80'">
                         </div>
                     </div>
 
@@ -548,7 +546,7 @@
                     <div class="flex flex-col md:flex-row items-center relative">
                         <!-- IMAGE 6 -->
                         <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0">
-                            <img src="process/6.jpg" alt="Construction Execution" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
+                            <img src="process/6.jpg" alt="Construction Execution" class="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80'">
                         </div>
                         <div class="w-6 h-6 bg-white border-4 border-accent rounded-full absolute left-4 md:left-1/2 transform -translate-x-1/2 shadow-sm z-10"></div>
                         <div class="md:w-1/2 md:pl-12 mb-6 md:mb-0 text-left">
@@ -719,17 +717,17 @@
                         <form id="contactForm" onsubmit="submitContactForm(event)" class="space-y-6">
                             <div>
                                 <label class="block text-sm font-medium text-text-secondary mb-2">Name</label>
-                                <input type="text" id="contact_name" class="w-full px-4 py-2 border border-border rounded focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" placeholder="Your Name" required>
+                                <input type="text" id="contact_name" name="name" class="w-full px-4 py-2 border border-border rounded focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" placeholder="Your Name" required>
                             </div>
                             
                             <div>
                                 <label class="block text-sm font-medium text-text-secondary mb-2">Email</label>
-                                <input type="email" id="contact_email" class="w-full px-4 py-2 border border-border rounded focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" placeholder="jane@example.com" required>
+                                <input type="email" id="contact_email" name="email" class="w-full px-4 py-2 border border-border rounded focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" placeholder="jane@example.com" required>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-medium text-text-secondary mb-2">Mobile</label>
-                                <input type="tel" id="contact_mobile" class="w-full px-4 py-2 border border-border rounded focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" placeholder="+91 98765 43210" required>
+                                <input type="tel" id="contact_mobile" name="mobile" class="w-full px-4 py-2 border border-border rounded focus:border-accent focus:ring-1 focus:ring-accent outline-none transition-colors" placeholder="+91 98765 43210" required>
                             </div>
 
                             <button type="submit" id="contactSubmitBtn" class="w-full bg-primary text-white py-3 rounded font-medium hover:bg-opacity-90 transition-opacity">Send Inquiry</button>
@@ -1107,7 +1105,8 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
         // *** CONFIGURATION: PASTE YOUR GOOGLE SCRIPT URL HERE ***
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlKQwCbM4Fw4s3gKHo5m4K_QnJg3ciQlMyM_--MfnQ4PMjweQtPxFMMLtxT-yKvhjg/exec"; 
+        // *** IMPORTANT: DEPLOY NEW VERSION (Execute as Me, Access: Anyone) AND PASTE URL BELOW ***
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzzyK4wcBthxGUQ01KqaPnccm1j1mu1BwwYj1UfAmdCv9d46LUIm7c-SCsMAS-yzccF/exec"; 
 
         // --- Navigation Logic ---
         function navigateTo(pageId) {
@@ -1171,46 +1170,6 @@
         // Auto-advance slides every 5 seconds
         setInterval(nextSlide, 5000);
 
-        // --- Testimonial Slider Logic ---
-        let currentTestimonial = 0;
-        const testimonialSlides = document.querySelectorAll('.testimonial-slide');
-        const testimonialDots = document.querySelectorAll('.testimonial-dot');
-        
-        function showTestimonial(index) {
-            testimonialSlides.forEach((slide, i) => {
-                if (i === index) {
-                    slide.classList.remove('opacity-0', 'z-10');
-                    slide.classList.add('opacity-100', 'z-20');
-                } else {
-                    slide.classList.remove('opacity-100', 'z-20');
-                    slide.classList.add('opacity-0', 'z-10');
-                }
-            });
-            
-            testimonialDots.forEach((dot, i) => {
-                if (i === index) {
-                    dot.classList.add('bg-primary', 'scale-125');
-                    dot.classList.remove('bg-primary/20');
-                } else {
-                    dot.classList.remove('bg-primary', 'scale-125');
-                    dot.classList.add('bg-primary/20');
-                }
-            });
-        }
-        
-        function changeTestimonial(index) {
-            currentTestimonial = index;
-            showTestimonial(currentTestimonial);
-        }
-        
-        function nextTestimonial() {
-            currentTestimonial = (currentTestimonial + 1) % testimonialSlides.length;
-            showTestimonial(currentTestimonial);
-        }
-        
-        // Auto-advance testimonials every 6 seconds
-        setInterval(nextTestimonial, 6000);
-
         // --- GALLERY LOGIC ---
         const projectData = {
             'anju': {
@@ -1219,11 +1178,11 @@
                     'projects/ANJU/1.jpeg',
                     'projects/ANJU/2.jpeg',
                     'projects/ANJU/3.jpeg',
-		    'projects/ANJU/4.jpeg',
-		    'projects/ANJU/5.jpeg',
-		    'projects/ANJU/6.jpeg',
-		    'projects/ANJU/7.jpeg',
-		    'projects/ANJU/8.jpeg'				
+                    'projects/ANJU/4.jpeg',
+                    'projects/ANJU/5.jpeg',
+                    'projects/ANJU/6.jpeg',
+                    'projects/ANJU/7.jpeg',
+                    'projects/ANJU/8.jpeg'              
                 ]
             },
             'pranab': {
@@ -1232,9 +1191,9 @@
                     'projects/BETA 2 I PRANAB/1.jpeg',
                     'projects/BETA 2 I PRANAB/2.jpeg',
                     'projects/BETA 2 I PRANAB/3.jpeg',
-		    'projects/BETA 2 I PRANAB/4.jpeg',
-		    'projects/BETA 2 I PRANAB/5.jpeg',
-		    'projects/BETA 2 I PRANAB/6.jpeg'
+                    'projects/BETA 2 I PRANAB/4.jpeg',
+                    'projects/BETA 2 I PRANAB/5.jpeg',
+                    'projects/BETA 2 I PRANAB/6.jpeg'
                 ]
             },
             'nikhil': {
@@ -1243,12 +1202,12 @@
                     'projects/NIKHIL/1.jpeg',
                     'projects/NIKHIL/2.jpeg',
                     'projects/NIKHIL/3.jpeg',
-		    'projects/NIKHIL/4.jpeg',
-		    'projects/NIKHIL/5.jpeg',
-		    'projects/NIKHIL/6.jpeg',
-		    'projects/NIKHIL/7.jpeg',
-		    'projects/NIKHIL/8.jpeg',
-		    'projects/NIKHIL/9.jpeg'
+                    'projects/NIKHIL/4.jpeg',
+                    'projects/NIKHIL/5.jpeg',
+                    'projects/NIKHIL/6.jpeg',
+                    'projects/NIKHIL/7.jpeg',
+                    'projects/NIKHIL/8.jpeg',
+                    'projects/NIKHIL/9.jpeg'
                 ]
             },
             'dubey': {
@@ -1257,21 +1216,21 @@
                     'projects/RAJ KUMAR DUBEY I UNINAV BLISS/1.jpeg',
                     'projects/RAJ KUMAR DUBEY I UNINAV BLISS/2.jpeg',
                     'projects/RAJ KUMAR DUBEY I UNINAV BLISS/3.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/4.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/5.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/6.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/7.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/8.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/9.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/10.jpeg',
+                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/4.jpeg',
+                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/5.jpeg',
+                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/6.jpeg',
+                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/7.jpeg',
+                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/8.jpeg',
+                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/9.jpeg',
+                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/10.jpeg',
                     'projects/RAJ KUMAR DUBEY I UNINAV BLISS/11.jpeg',
                     'projects/RAJ KUMAR DUBEY I UNINAV BLISS/12.jpeg',
                     'projects/RAJ KUMAR DUBEY I UNINAV BLISS/13.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/14.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/15.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/16.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/17.jpeg',
-		    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/18.jpeg',
+                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/14.jpeg',
+                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/15.jpeg',
+                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/16.jpeg',
+                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/17.jpeg',
+                    'projects/RAJ KUMAR DUBEY I UNINAV BLISS/18.jpeg',
                 ]
             }
         };
@@ -1350,12 +1309,12 @@
         };
 
         const componentRates = {
-            'woodwork': 950,      
+            'woodwork': 950,       
             'false_ceiling': 140, 
-            'painting': 130,      
-            'flooring': 220,      
-            'electrical': 100,    
-            'decor': 450          
+            'painting': 130,       
+            'flooring': 220,       
+            'electrical': 100,     
+            'decor': 450           
         };
 
         // 2. Helper Functions
@@ -1401,7 +1360,7 @@
             // --- Capture Additional Project Details ---
             const roomType = document.getElementById('roomType').value;
             const area = document.getElementById('areaInput').value;
-            const finish = document.querySelector('input[name="finishLevel"]:checked').value;
+            const finish = document.querySelector('input[name="finishLevel"]:checked') ? document.querySelector('input[name="finishLevel"]:checked').value : 'Not Selected';
             
             // Collect Checkboxes
             const scope = [];
@@ -1417,7 +1376,7 @@
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Calculating...';
 
-            // --- Construct Payload (Using URLSearchParams for Reliability) ---
+            // --- Construct Payload ---
             const payload = new URLSearchParams();
             payload.append('name', name);
             payload.append('email', email);
@@ -1668,8 +1627,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
