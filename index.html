@@ -1376,29 +1376,48 @@
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Calculating...';
 
-            // --- Construct Payload ---
-            const payload = new URLSearchParams();
-            payload.append('name', name);
-            payload.append('email', email);
-            payload.append('mobile', mobile);
-            payload.append('roomType', roomType);
-            payload.append('area', area);
-            payload.append('finish', finish);
-            payload.append('scope', scope.join(", "));
+            // --- 1. Gather Data ---
+            // Ensure these IDs ('name', 'email', etc.) match your HTML exactly
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                mobile: document.getElementById('mobile').value,
+                roomType: document.getElementById('roomType').value,
+                area: document.getElementById('area').value,
+                finish: document.getElementById('finish').value,
+                scope: document.getElementById('scope').value 
+            };
 
-            // --- Send to Google Sheet (Fire & Forget Logic) ---
+            // --- 2. Send to Google Sheet ---
             if (GOOGLE_SCRIPT_URL) {
+                // Convert object to JSON string
+                const payload = JSON.stringify(formData);
+
                 fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
-                    body: payload, // Sending as x-www-form-urlencoded
-                    mode: 'no-cors' 
-                }).then(() => {
-                    console.log("Data successfully sent to Google Sheet");
-                }).catch(err => {
+                    mode: 'no-cors', // Essential for Google Apps Script
+                    headers: {
+                        "Content-Type": "text/plain;charset=utf-8",
+                    },
+                    body: payload
+                })
+                .then(() => {
+                    // --- Success: Show Alert & Reset Form ---
+                    alert("Thank you! We have received your inquiry and will be in touch shortly.");
+                    document.getElementById('contactForm').reset();
+                    
+                    // Reset button state (if you have button logic)
+                    if (typeof btn !== 'undefined') {
+                        btn.disabled = false;
+                        btn.innerText = originalBtnText;
+                    }
+                })
+                .catch(err => {
                     console.error("Error sending data", err);
+                    alert("Something went wrong. Please try again.");
                 });
             } else {
-                console.log("Google Script URL not set. Skipping data save.");
+                console.error("Google Script URL is missing!");
             }
 
             // --- Simulate short processing delay then reveal ---
@@ -1627,6 +1646,7 @@
     </script>
 </body>
 </html>
+
 
 
 
