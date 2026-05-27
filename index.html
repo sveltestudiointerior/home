@@ -1669,60 +1669,55 @@
 
         // NEW: Submit Contact Form
         function submitContactForm(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('contact_name').value.trim();
-            const email = document.getElementById('contact_email').value.trim();
-            const mobile = document.getElementById('contact_mobile').value.trim();
-            const btn = document.getElementById('contactSubmitBtn');
+    e.preventDefault();
+    
+    const name = document.getElementById('contact_name').value.trim();
+    const email = document.getElementById('contact_email').value.trim();
+    const mobile = document.getElementById('contact_mobile').value.trim();
+    const btn = document.getElementById('contactSubmitBtn');
 
-            if (!name || !email || !mobile) {
-                alert("Please fill in all fields.");
-                return;
-            }
+    if (!name || !email || !mobile) {
+        alert("Please fill in all fields.");
+        return;
+    }
 
-            // UI Feedback
-            const originalBtnText = btn.innerText;
-            btn.disabled = true;
-            btn.innerText = "Sending...";
+    // UI Feedback
+    const originalBtnText = btn.innerText;
+    btn.disabled = true;
+    btn.innerText = "Sending...";
 
-            // Construct Payload (Using URLSearchParams)
-            const payload = new URLSearchParams();
-            payload.append('name', name);
-            payload.append('email', email);
-            payload.append('mobile', mobile);
-            // Add static values for columns used by Estimator to keep Sheet clean
-            payload.append('roomType', 'General Inquiry'); 
-            payload.append('area', '-');
-            payload.append('finish', '-');
-            payload.append('scope', 'Contact Form Submission');
+    // Construct Payload using exact matching keys for your script
+    const payload = new URLSearchParams();
+    payload.append('name', name);
+    payload.append('email', email);
+    payload.append('mobile', mobile);
+    payload.append('roomType', 'General Inquiry'); 
+    payload.append('area', '-');
+    payload.append('finish', '-');
+    payload.append('scope', 'Contact Form Submission');
 
-            // Send to Google Sheet
-            if (GOOGLE_SCRIPT_URL) {
-                fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    body: payload,
-                    mode: 'no-cors'
-                }).then(() => {
-                    alert("Thank you! We have received your inquiry and will be in touch shortly.");
-                    document.getElementById('contactForm').reset();
-                }).catch(err => {
-                    console.error("Error sending data", err);
-                    alert("Something went wrong. Please try again or call us directly.");
-                }).finally(() => {
-                    btn.disabled = false;
-                    btn.innerText = originalBtnText;
-                });
-            } else {
-                // Fallback for when URL isn't set yet (Preview Mode)
-                setTimeout(() => {
-                    alert("Thank you! We have received your inquiry and will be in touch shortly.");
-                    document.getElementById('contactForm').reset();
-                    btn.disabled = false;
-                    btn.innerText = originalBtnText;
-                }, 1000);
-            }
-        }
+    // Send to Google Sheet matching the Estimator's network settings
+    if (GOOGLE_SCRIPT_URL) {
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            body: payload, // Sent as form-urlencoded data
+            mode: 'no-cors' // Crucial: forces browser to bypass CORS blocks
+        }).then(() => {
+            alert("Thank you! We have received your inquiry and will be in touch shortly.");
+            document.getElementById('contactForm').reset();
+        }).catch(err => {
+            console.error("Error sending data", err);
+            alert("Something went wrong. Please try again or call us directly.");
+        }).finally(() => {
+            btn.disabled = false;
+            btn.innerText = originalBtnText;
+        });
+    } else {
+        alert("Google Script URL is not configured properly.");
+        btn.disabled = false;
+        btn.innerText = originalBtnText;
+    }
+}
 
         // --- Init ---
         window.addEventListener('load', () => {
